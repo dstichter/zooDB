@@ -35,7 +35,7 @@ var zoo = {
         console.log("Added");
         currentScope.menu();
         currentScope.promptUser();
-      }
+      })
     });
   },
   visit: function(){
@@ -45,27 +45,29 @@ var zoo = {
     console.log("Enter (C): ----- here's the count for all animals in this one city!");
     console.log("Enter (O): ----- here's the count for all the animals in all locations by the type you specified!");
     console.log("Enter (Q): ----- Quits to the main menu!");
+    this.view()
   },
   view: function(input_scope){
     var currentScope = input_scope;
     prompt.get(['visit'],function(err,result){
       if(result.visit === "Q"){
         currentScope.menu();
+        currentScope.promtpUser()
       }
       else if(result.visit === "O"){
-        currentScope.type(input_scope);
+        currentScope.type(currentScope);
       }
       else if(result.visit === "I"){
-        currentScope.type(input_scope);
+        currentScope.animId(currentScope);
       }
       else if(result.visit === "N"){
-        currentScope.name(input_scope);
+        currentScope.name(currentScope);
       }
       else if(result.visit === "A"){
-        currentScope.all(input_scope);
+        currentScope.all(currentScope);
       }
       else if(result.visit === "C"){
-        currentScope.care(input_scope);
+        currentScope.care(currentScope);
       }
       else{
         console.log("Sorry didnt get that");
@@ -80,8 +82,9 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
         console.log(results);
-        currentScope.menu()
-      }
+        currentScope.visit()
+        currentScope.view(currentScope)
+      })
     });
   },
   care: function(input_scope){
@@ -92,8 +95,9 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
         console.log(results);
-        currentScope.menu()
-      }
+        currentScope.visit()
+        currentScope.view(currentScope)
+      })
     });
   },
   animId: function(input_scope){
@@ -105,8 +109,9 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
         console.log(results);
-        currentScope.menu()
-      }
+        currentScope.visit()
+        currentScope.view(currentScope)
+      })
     });
   },
   name: function(input_scope){
@@ -118,8 +123,9 @@ var zoo = {
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
         console.log(results);
-        currentScope.menu()
-      }
+        currentScope.visit()
+        currentScope.view(currentScope)
+      })
     });
   },
   all: function(input_scope){
@@ -127,8 +133,9 @@ var zoo = {
       connection.query(query, function(err, results) {
         if(err) throw err;
         console.log(results);
-        currentScope.menu()
-      }
+        currentScope.visit()
+        currentScope.view(currentScope)
+      })
   },
   update: function(input_scope){
     var currentScope = input_scope;
@@ -139,7 +146,8 @@ var zoo = {
         if(err) throw err;
         console.log(results);
         currentScope.menu()
-      }
+        currentScope.promptUser()
+      })
     });
   },
   adopt: function(input_scope){
@@ -151,7 +159,8 @@ var zoo = {
         if(err) throw err;
         console.log(results);
         currentScope.menu()
-      }
+        currentScope.promptUser()
+      })
     });
   },
   promptUser: function(){
@@ -161,7 +170,7 @@ var zoo = {
         self.exit()
       }
       else if(results.input === "A"){
-        self.all()
+        self.all(self)
       }
       else if(results.input === "V"){
         self.visit()
@@ -170,7 +179,7 @@ var zoo = {
         self.view(self)
       }
       else if(result.visit === "U"){
-        currentScope.care(input_scope);
+        self.update(self);
       }
       else{
         console.log("Sorry didnt get that");
@@ -188,3 +197,4 @@ var zoo = {
     this.promptUser()
   }
 }
+zoo.open()
