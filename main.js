@@ -5,7 +5,7 @@ var connection = mysql.createConnection({
   host     : 'localhost',
   user     : 'root',
   password : pw.pw.pw,
-  database : 'zoo_db'
+  database : 'zoodb'
 });
 prompt.start();
 connection.connect();
@@ -80,7 +80,7 @@ var zoo = {
       var inputType = result.animal_type;
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
-        console.log(results);
+        console.log("There Are " + results[0]['COUNT(type)'] + " " + result.animal_type);
         currentScope.visit()
         
       })
@@ -89,12 +89,12 @@ var zoo = {
   care: function(input_scope){
     console.log("Enter City NY/SF")
     var currentScope = input_scope;
-    prompt.get(['city_name'], function(err, results){
+    prompt.get(['city_name'], function(err, result){
       var query = 'SELECT COUNT(*) FROM animals,caretakers WHERE caretakers.city=? AND caretakers.id=animals.caretaker_id'
-      var inputType = results.city_name;
+      var inputType = result.city_name;
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
-        console.log(results);
+        console.log(results[0]["COUNT(*)"] + " Animals in " + result.city_name);
         currentScope.visit()
         
       })
@@ -108,7 +108,11 @@ var zoo = {
       var inputType = results.animal_id;
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
-        console.log(results);
+        console.log("ID: " + results[0]['id']);
+        console.log("Caretaker ID: " +results[0]['caretaker_id']);
+        console.log("Name: " + results[0]['name']);
+        console.log("Type: " + results[0]['type']);
+        console.log("Age: " + results[0]['age']);
         currentScope.visit()
         
       })
@@ -122,7 +126,11 @@ var zoo = {
       var inputType = results.animal_name;
       connection.query(query, inputType, function(err, results) {
         if(err) throw err;
-        console.log(results);
+        console.log("ID: " + results[0]['id']);
+        console.log("Caretaker ID: " +results[0]['caretaker_id']);
+        console.log("Name: " + results[0]['name']);
+        console.log("Type: " + results[0]['type']);
+        console.log("Age: " + results[0]['age']);
         currentScope.visit()
         
       })
@@ -133,7 +141,7 @@ var zoo = {
       var query = 'SELECT COUNT(*) FROM animals'
       connection.query(query, function(err, results) {
         if(err) throw err;
-        console.log(results);
+        console.log(results[0]['COUNT(*)'] + " Animals");
         currentScope.visit()
         
       })
